@@ -9,9 +9,6 @@ def recipie(request):
             recipie_description=request.POST.get('recipie_description')
             recipie_image=request.FILES.get('recipie_image')
             Recipie.objects.create(recipie_name=recipie_name,recipie_description=recipie_description,recipie_image=recipie_image)
-
-        if request.GET.get('search'):
-              print(request.POST.get('search'))
         return render(request,"receipes.html",{'data':data})
 
 
@@ -35,6 +32,10 @@ def update(request,id):
 
             queryset.save()
             return redirect('/')
+      
+      if request.GET.get('search'):
+            queryset=queryset.filter(recipie_name__icontains=request.GET.get('search'))
+
 
 
       context={'recipie':queryset}
