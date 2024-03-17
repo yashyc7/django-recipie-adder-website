@@ -28,5 +28,8 @@ urlpatterns = [
     path('',views.recipie),
     path('delete-recipie/<int:id>/',views.delete_recipie,name='delete-recipie'),
     path('update-recipie/<id>', views.update,name='update-recipie'),
+    path('login/',views.login_page,name='login'),
+    path('register/',views.register,name='register'),
+    
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

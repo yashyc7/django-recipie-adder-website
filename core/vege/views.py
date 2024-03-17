@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from .models import * 
 from django.http import HttpResponse
-# Create your views here.
+from django.contrib.auth.models import User# Create your views here.
 def recipie(request):
         data=Recipie.objects.all()
         if(request.method=='POST'):
@@ -36,10 +36,28 @@ def update(request,id):
       if request.GET.get('search'):
             queryset=queryset.filter(recipie_name__icontains=request.GET.get('search'))
 
-
-
       context={'recipie':queryset}
       return render(request,'update_recipies.html',context)
 
 
 
+def login_page(request):
+      return render(request,'login.html')
+
+def register(request):
+      if request.method=='POST':
+            first_name=request.POST.get('first_name')
+            last_name=request.POST.get('last_name')
+            username=request.POST.get('username')
+            password=request.POST.get('password')
+            
+            user=User.objects.create(
+             first_name=first_name,
+             last_name=last_name,
+             username=username,
+            )
+            user.set_password(password)
+            user.save()
+            return redirect('/register/')
+
+      return render(request,'register.html')
