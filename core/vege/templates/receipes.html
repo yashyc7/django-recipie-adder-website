@@ -14,12 +14,20 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
+    <nav class="navbar navbar-light bg-light justify-content-between shadow-lg">
+      <a class="navbar-brand">Recify.com</a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <a href='/logout_page/' class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</a>
+      </form>
+    </nav>
 
     <title>Register</title>
   </head>
   <body>
-    <h1 style="justify-content: center; text-align: center">
-      Registration for new User
+    <h1 style="justify-content: center; text-align: center">Hello, 
+      {{request.user.first_name}}! <hr>
+     Create your recipie now!  
     </h1>
 
     <!-- Optional JavaScript -->
@@ -41,6 +49,11 @@
     ></script>
 
     <div class="container">
+      {% if messages %} {{message.tags}}
+      <div class="alert alert-primary" role="alert">
+        {% for message in messages %} {{message}} {% endfor %}
+      </div>
+      {% endif %}
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
@@ -56,37 +69,44 @@
           <label for="recipie_description">Receipe description</label>
           <textarea name="recipie_description" class="form-control"></textarea>
         </div>
-        <div class="form-group form-check">
-          <label class="form-check-label" for="recipie_image"
-            >receipe Image</label
-          >
+        <div class="form-group">
+          <label for="recipie_image"
+            >Receipe Image</label>
           <input type="file" class="form-control" name="recipie_image" />
         </div>
-        <button type="submit" class="btn btn-primary">Add receipe</button>
+        <button type="submit" class="btn btn-primary m-2">Add receipe</button>
       </form>
       <div class="container">
-        <form >
-          <div class='mt-5'> 
-            <div class='mx-auto-col-6'>
-              <div class='mb-3'>
+        <form>
+          <div class="mt-5">
+            <div class="mx-auto-col-6">
+              <div class="mb-3">
                 <label for="search">Search Food:</label>
-                <input type="text" class='form-control' name='search'>
+                <input type="text" class="form-control" name="search" />
               </div>
-              <button type='submit' class='btn btn-primary'>Search</button>
+              <button type="submit" class="btn btn-primary m-2 ">Search</button>
             </div>
-           </div>
+          </div>
         </form>
         <div class="row">
           {% for x in data %}
           <div class="col-md-4 mb-4">
             <div class="card">
-              <img src="/media/{{x.recipie_image}}" class="card-img-top" alt="Recipe Image">
+              <img
+                src="/media/{{x.recipie_image}}"
+                class="card-img-top"
+                alt="Recipe Image"
+              />
               <div class="card-body">
                 <h5 class="card-title">{{x.recipie_name}}</h5>
                 <p class="card-text">{{x.recipie_description}}</p>
                 <div class="text-center">
-                  <a href="delete-recipie/{{x.id}}" class="btn btn-danger">Delete</a>
-                  <a href="update-recipie/{{x.id}}" class="btn btn-success">Update</a>
+                  <a href="delete-recipie/{{x.id}}" class="btn btn-danger"
+                    >Delete</a
+                  >
+                  <a href="update-recipie/{{x.id}}" class="btn btn-success"
+                    >Update</a
+                  >
                 </div>
               </div>
             </div>
@@ -94,8 +114,6 @@
           {% endfor %}
         </div>
       </div>
-      
-      
     </div>
   </body>
 </html>

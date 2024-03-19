@@ -30,6 +30,6 @@ urlpatterns = [
     path('update-recipie/<id>', views.update,name='update-recipie'),
     path('login/',views.login_page,name='login'),
     path('register/',views.register,name='register'),
-    
+    path('logout_page/',views.logout_page,name='logout_page')
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

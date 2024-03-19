@@ -1,8 +1,12 @@
 from django.shortcuts import redirect, render
 from .models import * 
 from django.http import HttpResponse
-from django.contrib.auth.models import User# Create your views here.
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+# Create your views here.
 def recipie(request):
+        
         data=Recipie.objects.all()
         if(request.method=='POST'):
             recipie_name=request.POST.get('recipie_name')
@@ -42,6 +46,26 @@ def update(request,id):
 
 
 def login_page(request):
+      if request.method=='POST':
+            username=request.POST.get('username')
+            password=request.POST.get('password')
+            if not(User.objects.filter(username=username).exists()):
+                  messages.error(request,'Invalid username')
+                  return redirect('/login/') #user doesn't exist 
+            #if user exists or not lets match the credentials of user from database using the authenticate function 
+            user =authenticate(username=username,password=password)
+
+            #if user credentials are not matched 
+            if user is None:
+                  messages.error(request,'Invalid password or username')
+                  return redirect('/login/')
+            else:
+                  #user is logged in succesfully 
+                  login(request,user)
+                  return redirect('/')
+
+
+
       return render(request,'login.html')
 
 def register(request):
@@ -50,6 +74,11 @@ def register(request):
             last_name=request.POST.get('last_name')
             username=request.POST.get('username')
             password=request.POST.get('password')
+
+            user=User.objects.filter(username=username)
+            if user.exists():
+                messages.info(request,'Username already taken ')
+                return redirect('/register/')
             
             user=User.objects.create(
              first_name=first_name,
@@ -58,6 +87,13 @@ def register(request):
             )
             user.set_password(password)
             user.save()
+            messages.info(request,'Account created succesfully')
             return redirect('/register/')
 
       return render(request,'register.html')
+
+
+def logout_page(request):
+      messages.info(request,'Account has been logged out ! ')
+      logout(request)
+      return redirect('/login/')
