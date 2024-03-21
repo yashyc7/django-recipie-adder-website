@@ -40,7 +40,7 @@ def update(request,id):
             return redirect('/')
       
       if request.GET.get('search'):
-            queryset=queryset.filter(recipie_name__icontains=request.GET.get('search'))
+            queryset=queryset.filter(recipie_name__icontains=request.GET.get('search')).value()
 
       context={'recipie':queryset}
       return render(request,'update_recipies.html',context)
