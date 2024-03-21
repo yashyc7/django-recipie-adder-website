@@ -4,9 +4,10 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+@login_required(login_url="/login/")
 def recipie(request):
-        
         data=Recipie.objects.all()
         if(request.method=='POST'):
             recipie_name=request.POST.get('recipie_name')
@@ -20,7 +21,8 @@ def delete_recipie(request,id):
       data=Recipie.objects.get(id=id)
       data.delete()
       return redirect('/')
-    
+
+@login_required(login_url="/login/")   
 def update(request,id):
       queryset=Recipie.objects.get(id=id)
       if(request.method=='POST'):
