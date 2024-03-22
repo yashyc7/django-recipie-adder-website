@@ -9,11 +9,17 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url="/login/")
 def recipie(request):
         data=Recipie.objects.all()
+
         if(request.method=='POST'):
             recipie_name=request.POST.get('recipie_name')
             recipie_description=request.POST.get('recipie_description')
             recipie_image=request.FILES.get('recipie_image')
             Recipie.objects.create(recipie_name=recipie_name,recipie_description=recipie_description,recipie_image=recipie_image)
+        else:#adding the search functionality
+              search_query=request.GET.get('search')
+              if search_query:
+                    data=Recipie.objects.filter(recipie_name__icontains=search_query)
+                    messages.info(request,'Recipies found')
         return render(request,"receipes.html",{'data':data})
 
 
@@ -42,8 +48,10 @@ def update(request,id):
       if request.GET.get('search'):
             queryset=queryset.filter(recipie_name__icontains=request.GET.get('search')).value()
 
-      context={'recipie':queryset}
+      context={'data':queryset}
       return render(request,'update_recipies.html',context)
+
+
 
 
 

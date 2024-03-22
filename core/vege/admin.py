@@ -5,3 +5,6 @@ from .models import *
 
 admin.site.register(Recipie)
 
+admin.site.register(Student)
+admin.site.register(StudentID)
+admin.site.register(Department)
