@@ -102,7 +102,7 @@ def register(request):
 
       return render(request,'register.html')
 
-
+#logout page logics 
 def logout_page(request):
       messages.info(request,'Account has been logged out ! ')
       logout(request)
