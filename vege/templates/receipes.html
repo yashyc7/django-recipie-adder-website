@@ -92,9 +92,7 @@
           <div class="col-md-4 mb-4">
             <div class="card">
               <img
-                src="/media/{{x.recipie_image}}"
-                class="card-img-top"
-                alt="Recipe Image"
+                src="{% static 'media/' %}{{ x.recipe_image }}" class="card-img-top" alt="Recipe Image"
               />
               <div class="card-body">
                 <h5 class="card-title">{{x.recipie_name}}</h5>
