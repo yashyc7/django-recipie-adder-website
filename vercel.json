@@ -8,19 +8,9 @@
   ],
   "routes": [
     {
-      "src": "/media/(.*)",
-      "dest": "media/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "core/wsgi.py"
     }
   ],
-  "rewrites": [
-    {
-      "source": "/media/(.*)",
-      "destination": "/media/$1"
-    }
-  ],
-  "installCommand": "pip install -r requirements.txt"
+  "installCommand":"pip install -r requirements.txt"
 }
